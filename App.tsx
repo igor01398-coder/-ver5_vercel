@@ -899,7 +899,7 @@ const App: React.FC = () => {
             {/* Treasure Map / Fragments Modal (Refactored) */}
             {showTreasureMap && (
                 <div className="absolute inset-0 z-[1000] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 animate-in zoom-in-95 duration-300">
-                    <div className="w-full max-w-xl bg-white border border-amber-200 rounded-xl overflow-hidden flex flex-col max-h-[80vh] shadow-2xl">
+                    <div className="w-full max-w-lg bg-white border border-amber-200 rounded-xl overflow-hidden flex flex-col max-h-[80vh] shadow-2xl">
                          {/* Header */}
                          <div className="p-4 border-b border-amber-100 flex justify-between items-start bg-amber-50">
                             <div>

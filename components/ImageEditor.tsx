@@ -53,6 +53,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
 
   // Unified flag for missions that are "Upload & Verify" only (Single column, no AI generation)
   // Mission 2 (Rock Analysis) and Mission 3 (Contour Drawing) fall into this category.
+  // This handles the layout change requested for Mission 3.
   const isUploadOnly = activePuzzle?.id === '2' || activePuzzle?.id === '3';
 
   // Set default prompt hint when puzzle loads
@@ -590,8 +591,8 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             </div>
         )}
 
-        {/* Image Area - Unconditionally shown for Mission 2, conditional for others */}
-        {(activePuzzle?.id === '2' || (isQuizSolved && activePuzzle?.id !== '1')) && (
+        {/* Image Area - Unconditionally shown for Mission 2 & 3, conditional for others */}
+        {(activePuzzle?.id === '2' || activePuzzle?.id === '3' || (isQuizSolved && activePuzzle?.id !== '1')) && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-forwards">
                 
                 {/* Secondary Instruction (If exists) */}
@@ -599,7 +600,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                     <div className={`border-l-2 p-4 rounded-r ${activePuzzle.type === 'side' ? 'bg-indigo-50 border-indigo-500' : 'bg-amber-50 border-amber-500'}`}>
                          <h4 className={`font-bold text-sm mb-1 font-mono flex items-center gap-2 ${activePuzzle.type === 'side' ? 'text-indigo-600' : 'text-amber-700'}`}>
                             <ImageIcon className="w-4 h-4" /> 
-                            {activePuzzle.id === '2' ? 'Question 2: Geological Analysis' : 'IMAGE REQUIRED'}
+                            {(activePuzzle.id === '2' || activePuzzle.id === '3') ? `Question 2: ${activePuzzle.id === '2' ? 'Geological Analysis' : 'Field Sketch'}` : 'IMAGE REQUIRED'}
                          </h4>
                          <p className="text-sm text-slate-700">{activePuzzle.uploadInstruction}</p>
                     </div>
@@ -718,7 +719,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                              </div>
                          )}
 
-                         {/* Prompt Input Area */}
+                         {/* Prompt Input Area - Now acts as Memo for UploadOnly missions */}
                          {!isCompleted && (
                              <div className="space-y-2">
                                 <label className="text-xs font-mono text-slate-500">
@@ -749,7 +750,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                          {/* Complete Button (Only if valid or bypassed) */}
                          {!isCompleted && validationResult?.isValid && (
                             <>
-                                {(activePuzzle?.id !== '2' || isQuizSolved) ? (
+                                {( (activePuzzle?.id !== '2' && activePuzzle?.id !== '3') || isQuizSolved) ? (
                                      <button
                                         onClick={handlePreComplete}
                                         className="w-full bg-teal-600 hover:bg-teal-500 text-white py-4 rounded-lg font-mono font-bold text-lg uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg mt-4 animate-in fade-in slide-in-from-bottom-2"
