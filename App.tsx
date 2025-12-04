@@ -968,14 +968,14 @@ const App: React.FC = () => {
                                             )}
                                             {collectedFragments.includes(1) && (
                                                 <li className="bg-amber-50 p-4 rounded-lg border border-amber-100 animate-in slide-in-from-right duration-500 shadow-sm">
-                                                    <div className="text-xs text-amber-700 font-bold mb-1 font-mono uppercase">FRAGMENT #02: GEOLOGY</div>
-                                                    <p className="text-sm text-slate-700 leading-relaxed">"The Nangang sandstone layers reveal a shallow marine past. Feather-like patterns suggest ancient currents."</p>
+                                                    <div className="text-xs text-amber-700 font-bold mb-1 font-mono uppercase">碎片 #02: 地質</div>
+                                                    <p className="text-sm text-slate-700 leading-relaxed">南港層標準地在南港地區，主要由青灰色厚層至薄層細粒石灰質砂岩和深灰色頁岩構成，本層中有顯著的厚層塊狀砂岩，厚達五十餘公尺，常形成嶺線及峭壁懸崖。</p>
                                                 </li>
                                             )}
                                             {collectedFragments.includes(2) && (
                                                 <li className="bg-purple-50 p-4 rounded-lg border border-purple-100 animate-in slide-in-from-right duration-700 shadow-sm">
-                                                    <div className="text-xs text-purple-700 font-bold mb-1 font-mono uppercase">FRAGMENT #03: STRUCTURE</div>
-                                                    <p className="text-sm text-slate-700 leading-relaxed">"Steep slopes protect the hidden reservoir. The ridges tell the story of collision."</p>
+                                                    <div className="text-xs text-purple-700 font-bold mb-1 font-mono uppercase">碎片 #03: 等高線</div>
+                                                    <p className="text-sm text-slate-700 leading-relaxed">等高線的線條形狀也能判斷地形特徵，例如V字形尖端朝高處代表河谷，尖端朝低處代表山脊。</p>
                                                 </li>
                                             )}
                                         </ul>
