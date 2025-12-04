@@ -345,8 +345,18 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                 </button>
             )}
             
-            {/* Reference Image Button (if available) */}
-            {activePuzzle?.referenceImage && (
+            {/* Reference Image Button (if available) - Mission 3 specific override */}
+            {activePuzzle?.id === '3' ? (
+                <a 
+                    href="https://drive.google.com/file/d/1XjI4JsPsBlYo5uo_e4TePtDssbcQOYr6/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
+                    title="開啟提示"
+                >
+                    <Lightbulb className="w-5 h-5" />
+                </a>
+            ) : activePuzzle?.referenceImage && (
                 <button 
                     onClick={() => setShowReferenceImage(true)}
                     className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
