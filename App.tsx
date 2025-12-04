@@ -852,7 +852,7 @@ const App: React.FC = () => {
                                             <Settings className="w-4 h-4 text-slate-600" />
                                         </div>
                                         <div>
-                                            <span className="font-bold text-slate-800">系統設定 (Settings)</span>
+                                            <span className="font-bold text-slate-800">系統設定</span>
                                             <p className="text-xs text-slate-500">可在此切換音效、迷霧模式與重置遊戲進度。</p>
                                         </div>
                                     </li>
@@ -962,8 +962,8 @@ const App: React.FC = () => {
                                         <ul className="space-y-3">
                                             {collectedFragments.includes(0) && (
                                                 <li className="bg-teal-50 p-4 rounded-lg border border-teal-100 animate-in slide-in-from-right duration-300 shadow-sm">
-                                                    <div className="text-xs text-teal-700 font-bold mb-1 font-mono uppercase">FRAGMENT #01: TOPOGRAPHY</div>
-                                                    <p className="text-sm text-slate-700 leading-relaxed">"The four beasts guard the valley. Their peaks form a natural basin..."</p>
+                                                    <div className="text-xs text-teal-700 font-bold mb-1 font-mono uppercase">碎片 #01: 地形</div>
+                                                    <p className="text-sm text-slate-700 leading-relaxed">相傳清初鄭成功治臺一路從台南率軍北上，到達錫口(松山舊名)埤塘一帶，遠望臺北盆地東南方南港山主稜側面的四個分稜，兩壑四壁，形狀各異，猶如神話故事中的天神執轡駕馭之虎、豹、獅、象四頭神獸，因而得名四獸山，傳說是風水極佳之處，山峰靈秀為民眾怡情養性之地。</p>
                                                 </li>
                                             )}
                                             {collectedFragments.includes(1) && (
