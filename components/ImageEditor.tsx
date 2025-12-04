@@ -334,21 +334,10 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             </h2>
         </div>
         <div className="flex gap-2">
-            {/* Gallery Button for Check Images */}
-            {activePuzzle?.referenceCheckImages && activePuzzle.referenceCheckImages.length > 0 && (
-                <button 
-                    onClick={() => setShowCheckGallery(true)}
-                    className="p-2 hover:bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-600 shadow-sm transition-colors"
-                    title="View Examples"
-                >
-                    <Lightbulb className="w-5 h-5" />
-                </button>
-            )}
-            
-            {/* Reference Image Button (if available) - Mission 3 specific override */}
-            {activePuzzle?.id === '3' ? (
-                <a 
-                    href="https://drive.google.com/file/d/1XjI4JsPsBlYo5uo_e4TePtDssbcQOYr6/view?usp=sharing"
+            {/* Special handling for Mission 2: Single Hint Link (External Drive Folder) */}
+            {activePuzzle?.id === '2' ? (
+                 <a 
+                    href="https://drive.google.com/drive/folders/1dGZAsbD-9MiJw3zUmwKkAt7juWJeXzt0?usp=drive_link"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
@@ -356,14 +345,40 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                 >
                     <Lightbulb className="w-5 h-5" />
                 </a>
-            ) : activePuzzle?.referenceImage && (
-                <button 
-                    onClick={() => setShowReferenceImage(true)}
-                    className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
-                    title="View Reference"
-                >
-                    <ImageIcon className="w-5 h-5" />
-                </button>
+            ) : (
+                <>
+                    {/* Gallery Button for Check Images */}
+                    {activePuzzle?.referenceCheckImages && activePuzzle.referenceCheckImages.length > 0 && (
+                        <button 
+                            onClick={() => setShowCheckGallery(true)}
+                            className="p-2 hover:bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-600 shadow-sm transition-colors"
+                            title="View Examples"
+                        >
+                            <Lightbulb className="w-5 h-5" />
+                        </button>
+                    )}
+                    
+                    {/* Reference Image Button (if available) - Mission 3 specific override */}
+                    {activePuzzle?.id === '3' ? (
+                        <a 
+                            href="https://drive.google.com/file/d/1XjI4JsPsBlYo5uo_e4TePtDssbcQOYr6/view?usp=sharing"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
+                            title="開啟提示"
+                        >
+                            <Lightbulb className="w-5 h-5" />
+                        </a>
+                    ) : activePuzzle?.referenceImage && (
+                        <button 
+                            onClick={() => setShowReferenceImage(true)}
+                            className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
+                            title="View Reference"
+                        >
+                            <ImageIcon className="w-5 h-5" />
+                        </button>
+                    )}
+                </>
             )}
         </div>
       </div>
@@ -389,7 +404,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             )}
             
             {/* Inline Hint to use Reference */}
-            {activePuzzle.referenceCheckImages && activePuzzle.referenceCheckImages.length > 0 && (
+            {activePuzzle.referenceCheckImages && activePuzzle.referenceCheckImages.length > 0 && activePuzzle.id !== '2' && (
                  <div className="mt-4 flex items-center gap-2 text-emerald-700 text-xs font-mono">
                     <Lightbulb className="w-4 h-4" />
                     <span>TIP: VIEW EXAMPLE PHOTOS (TOP RIGHT)</span>
