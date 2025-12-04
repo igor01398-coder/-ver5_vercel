@@ -369,7 +369,21 @@ const App: React.FC = () => {
       }
   };
 
-  const handlePuzzleSelect = (puzzle: Puzzle) => {
+  const handlePuzzleSelect = async (puzzle: Puzzle) => {
+    // Request Camera Permission
+    // Explicitly check/request permission here to ensure the browser prompts the user 
+    // before entering the mission view where camera input is used.
+    try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+             // Stop the stream immediately, we only needed the permission prompt
+             stream.getTracks().forEach(track => track.stop());
+        }
+    } catch (e) {
+        console.warn("Camera permission check failed:", e);
+        // We continue regardless, as file upload might still work or utilize gallery
+    }
+
     setActivePuzzle(puzzle);
     setView(AppView.EDITOR);
     setShowSideMissions(false);

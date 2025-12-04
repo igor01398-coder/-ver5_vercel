@@ -53,7 +53,6 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
 
   // Unified flag for missions that are "Upload & Verify" only (Single column, no AI generation)
   // Mission 2 (Rock Analysis) and Mission 3 (Contour Drawing) fall into this category.
-  // This handles the layout change requested for Mission 3.
   const isUploadOnly = activePuzzle?.id === '2' || activePuzzle?.id === '3';
 
   // Set default prompt hint when puzzle loads
@@ -273,6 +272,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
         }
         
     } catch (err: any) {
+        console.error("Gemini API Error:", err);
         setError(err.message || "Protocol Failed. Re-calibrate sensors.");
         setValidationLoading(false);
     } finally {
@@ -687,6 +687,14 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                                 </div>
                             )}
                          </div>
+
+                         {/* Error Message */}
+                         {error && (
+                             <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs font-mono flex items-center gap-2">
+                                 <AlertTriangle className="w-4 h-4 shrink-0" />
+                                 {error}
+                             </div>
+                         )}
 
                          {/* UploadOnly: Verify Button placed immediately below image */}
                          {isUploadOnly && !isCompleted && !validationResult?.isValid && (
