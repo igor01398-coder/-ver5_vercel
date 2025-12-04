@@ -52,14 +52,14 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Unified flag for missions that are "Upload & Verify" only (Single column, no AI generation)
-  // Mission 2 (Rock Analysis) and Mission 3 (Contour Drawing) fall into this category.
-  const isUploadOnly = activePuzzle?.id === '2' || activePuzzle?.id === '3';
+  // Mission 2 (Rock Analysis), Mission 3 (Contour Drawing) and Side Missions fall into this category.
+  const isUploadOnly = activePuzzle?.id === '2' || activePuzzle?.id === '3' || activePuzzle?.type === 'side';
 
   // Set default prompt hint when puzzle loads
   useEffect(() => {
     if (activePuzzle) {
-        // For Mission 3, the input is for remarks, so don't pre-fill the AI prompt hint
-        if (activePuzzle.id === '3') {
+        // For Mission 3 and Side Missions, the input is for remarks, so don't pre-fill the AI prompt hint
+        if (activePuzzle.id === '3' || activePuzzle.type === 'side') {
             setPrompt('');
         } else {
             setPrompt(activePuzzle.targetPromptHint);
@@ -259,7 +259,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
 
         playSfx('success');
         
-        // Mission 2 & 3 Logic: If valid, award XP immediately and STOP (no generation)
+        // Mission 2 & 3 & Side Logic: If valid, award XP immediately and STOP (no generation)
         if (isUploadOnly && validation.isValid) {
             if (onFieldSolved) onFieldSolved();
             return;
@@ -591,8 +591,8 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             </div>
         )}
 
-        {/* Image Area - Unconditionally shown for Mission 2 & 3, conditional for others */}
-        {(activePuzzle?.id === '2' || activePuzzle?.id === '3' || (isQuizSolved && activePuzzle?.id !== '1')) && (
+        {/* Image Area - Unconditionally shown for Mission 2 & 3 & Side, conditional for others */}
+        {(activePuzzle?.id === '2' || activePuzzle?.id === '3' || activePuzzle?.type === 'side' || (isQuizSolved && activePuzzle?.id !== '1')) && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-forwards">
                 
                 {/* Secondary Instruction (If exists) */}
@@ -638,7 +638,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                 ) : (
                     <div className="w-full space-y-4">
                          {/* If resultImage is null (e.g. manual confirm), make original image bigger. Else show grid. 
-                             UploadOnly Missions (2 & 3): Force single column to hide result image. */}
+                             UploadOnly Missions (2 & 3 & Side): Force single column to hide result image. */}
                          <div className={`grid ${(resultImage || loading) && !isUploadOnly ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
                             <div className="relative group">
                                 <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded font-mono backdrop-blur-sm z-10">ORIGINAL</div>
