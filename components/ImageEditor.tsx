@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { editImageWithGemini, fileToGenerativePart, validateImage } from '../services/geminiService';
 // FIX: Use relative path
 import { playSfx } from '../services/audioService';
-import { Loader2, ArrowLeft, Upload, Camera, RefreshCw, Terminal, ChevronRight, CheckCircle, HelpCircle, AlertTriangle, ClipboardList, PartyPopper, Image as ImageIcon, ShieldCheck, Check, X, FolderOpen, ExternalLink, ScanSearch, Lightbulb } from 'lucide-react';
+import { Loader2, ArrowLeft, Upload, Camera, RefreshCw, Terminal, ChevronRight, CheckCircle, HelpCircle, AlertTriangle, ClipboardList, PartyPopper, Image as ImageIcon, ShieldCheck, Check, X, FolderOpen, ExternalLink, ScanSearch, Lightbulb, Map } from 'lucide-react';
 import { Puzzle, PuzzleProgress } from '../types';
 
 interface ImageEditorProps {
@@ -334,8 +334,18 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             </h2>
         </div>
         <div className="flex gap-2">
-            {/* Special handling for Mission 2: Single Hint Link (External Drive Folder) */}
-            {activePuzzle?.id === '2' ? (
+            {/* Mission 1: Map Link */}
+            {activePuzzle?.id === '1' ? (
+                 <a 
+                    href="https://mapy.com/en/zakladni?l=0&x=121.5825656&y=25.0303884&z=16"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 hover:bg-amber-50 rounded-lg border border-amber-200 text-amber-600 shadow-sm transition-colors"
+                    title="開啟地圖"
+                >
+                    <Map className="w-5 h-5" />
+                </a>
+            ) : activePuzzle?.id === '2' ? (
                  <a 
                     href="https://drive.google.com/drive/folders/1dGZAsbD-9MiJw3zUmwKkAt7juWJeXzt0?usp=drive_link"
                     target="_blank"
