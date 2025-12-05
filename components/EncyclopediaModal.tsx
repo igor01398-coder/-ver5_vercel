@@ -35,6 +35,20 @@ const ENCYCLOPEDIA_DATA: EncyclopediaEntry[] = [
     relatedMissionId: '1'
   },
   {
+    id: 'geo-6',
+    title: '地質年代 (Geologic Time Scale)',
+    category: 'Geology',
+    summary: '地球歷史的時間劃分，如古生代、中生代、新生代。',
+    content: '地質學家將地球46億年的歷史劃分為不同的年代。大的單位稱為「代」，如恐龍活躍的「中生代」和哺乳動物繁盛的「新生代」。台灣島的形成相對年輕，大約是在600萬年前的「蓬萊造山運動」中，由板塊擠壓隆起而成，屬於新生代晚期的地質事件。'
+  },
+  {
+    id: 'geo-7',
+    title: '風化作用 (Weathering)',
+    category: 'Geology',
+    summary: '岩石在原地崩解或分解的過程。',
+    content: '岩石長期暴露在地表，受到陽光、雨水、空氣和生物的影響，逐漸破碎或改變成分的過程稱為風化。例如岩石中的鐵質氧化變成紅褐色（化學風化），或是植物根部鑽入岩縫撐開岩石（物理風化）。在永春陂周邊步道，常可看見岩石表面有剝落或變色的現象。'
+  },
+  {
     id: 'geo-3',
     title: '擋土牆與排水 (Retaining Walls)',
     category: 'Tech',

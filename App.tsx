@@ -116,18 +116,18 @@ const TREASURE_MAP_IMAGE = "https://drive.google.com/uc?export=view&id=1Gs8D2-eM
 
 const TUTORIAL_STEPS = [
     {
-        title: "Navigation Protocol",
-        desc: "Warning: Unstable environment detected. Heavy 'Fog of War' will descend upon the area after 1 minute.",
+        title: '行動提示',
+        desc: '注意！前方環境開始不穩定。再過 1 分鐘，神祕的「探險迷霧」就會降臨，請加快腳步前進！',
         icon: <CloudFog className="w-10 h-10 text-teal-600" />
     },
     {
-        title: "Target Identification",
-        desc: "Look for Mission Markers on the map. Different colors represent different mission objectives. Tap them to begin.",
+        title: '線索目標',
+        desc: '在地圖上找找看「任務標記」！不同顏色代表不同的任務。點擊以開始',
         icon: <MapPin className="w-10 h-10 text-amber-600" />
     },
     {
-        title: "Field Equipment",
-        desc: "Use the bottom menu to access 'Side Ops' (for extra XP) and the 'Archives' to track collected data fragments.",
+        title: '探險工具',
+        desc: '兩側的選單，可以開啟「支線任務」（額外獲得經驗值！）還能進入「尋寶手冊」，查看你已經收集到的線索碎片。',
         icon: <BookOpen className="w-10 h-10 text-indigo-600" />
     }
 ];
