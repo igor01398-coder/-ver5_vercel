@@ -37,6 +37,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
   const [quizInput, setQuizInput] = useState<string>('');
   const [quizSelect1, setQuizSelect1] = useState<string>('');
   const [quizSelect2, setQuizSelect2] = useState<string>('');
+  const [quizSelect3, setQuizSelect3] = useState<string>('');
   
   // Mission 1 State (Four Beasts)
   const [m1Heights, setM1Heights] = useState({ tiger: '', leopard: '', lion: '', elephant: '' });
@@ -83,6 +84,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             if (initialState.quizInput) setQuizInput(initialState.quizInput);
             if (initialState.quizSelect1) setQuizSelect1(initialState.quizSelect1);
             if (initialState.quizSelect2) setQuizSelect2(initialState.quizSelect2);
+            if (initialState.quizSelect3) setQuizSelect3(initialState.quizSelect3);
             // Restore prompt/description
             if (initialState.imageDescription) setPrompt(initialState.imageDescription);
             // Restore image
@@ -109,6 +111,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             // Default values for dropdowns
             setQuizSelect1('');
             setQuizSelect2('');
+            setQuizSelect3('');
             // Reset Mission 1
             setM1Heights({ tiger: '', leopard: '', lion: '', elephant: '' });
             setM1Reason('');
@@ -135,6 +138,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
         quizInput,
         quizSelect1,
         quizSelect2,
+        quizSelect3,
         imageDescription: prompt,
         uploadedImage: originalImage,
         // Save Solved Flags
@@ -199,9 +203,10 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
 
     // Mission 3 Logic: Dropdowns
     if (activePuzzle.id === '3') {
-         // Allow both logic: Dense=Tired OR Sparse=Not Tired
-         if ((quizSelect1 === '密集' && quizSelect2 === '累') || 
-             (quizSelect1 === '稀疏' && quizSelect2 === '不累')) {
+         // Allow both logic: Dense=Tired=Steep OR Sparse=Not Tired=Gentle
+         // Assuming "很陡" (Very Steep) corresponds to Dense, and "平緩" (Gentle) to Sparse.
+         if ((quizSelect1 === '密集' && quizSelect2 === '累' && quizSelect3 === '很陡') || 
+             (quizSelect1 === '稀疏' && quizSelect2 === '不累' && quizSelect3 === '平緩')) {
              isCorrect = true;
          }
     } else {
@@ -356,6 +361,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             quizInput: quizInput,
             quizSelect1: quizSelect1,
             quizSelect2: quizSelect2,
+            quizSelect3: quizSelect3,
             imageDescription: prompt,
             uploadedImage: originalImage,
             m1Part1Solved,
@@ -613,6 +619,18 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
                                         <option value="" disabled>請選擇</option>
                                         <option value="累">累</option>
                                         <option value="不累">不累</option>
+                                    </select>
+                                    <span>，坡度感受</span>
+                                    <select 
+                                        value={quizSelect3}
+                                        onChange={(e) => setQuizSelect3(e.target.value)}
+                                        className="bg-white border border-slate-300 text-teal-700 px-2 py-1 rounded focus:outline-none focus:border-amber-500 transition-colors disabled:bg-slate-100 disabled:text-slate-900 disabled:border-slate-300 disabled:font-bold"
+                                        disabled={isCompleted || isQuizSolved}
+                                    >
+                                        <option value="" disabled>請選擇</option>
+                                        <option value="平緩">平緩</option>
+                                        <option value="微陡">微陡</option>
+                                        <option value="很陡">很陡</option>
                                     </select>
                                 </div>
                                 

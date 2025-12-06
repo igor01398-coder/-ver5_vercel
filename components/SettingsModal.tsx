@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { X, Settings, Volume2, VolumeX, Eye, EyeOff, RotateCcw, Lock, CloudFog, FileDown, ClipboardCopy, Check, FileJson } from 'lucide-react';
+import { X, Settings, Volume2, VolumeX, Eye, EyeOff, RotateCcw, Lock, CloudFog, FileDown, ClipboardCopy, Check, FileJson, MessageSquare } from 'lucide-react';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -84,7 +84,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         if (m3) {
             report += `狀態: ${m3.uploadedImage ? '已完成' : '進行中'}\n`;
             if (m3.quizSelect1 && m3.quizSelect2) {
-                report += `等高線觀察: 等高線越[${m3.quizSelect1}]，爬起來越[${m3.quizSelect2}]\n`;
+                report += `等高線觀察: 等高線越[${m3.quizSelect1}]，爬起來越[${m3.quizSelect2}]`;
+                if (m3.quizSelect3) {
+                    report += `，坡度感受[${m3.quizSelect3}]`;
+                }
+                report += `\n`;
             }
             if (m3.imageDescription) report += `路線筆記: ${m3.imageDescription}\n`;
         } else {
@@ -233,6 +237,20 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <p className="text-[10px] text-slate-400 mt-2 font-mono">
                     * 複製成績報告可直接貼上至 Line 或 Google Classroom 繳交。
                 </p>
+            </div>
+
+            {/* Feedback Section */}
+            <div>
+                <h3 className="text-xs font-mono font-bold text-slate-500 uppercase mb-3">System Feedback</h3>
+                <a 
+                    href="https://forms.gle/9AARkdi4Hh8cyaJ2A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-white hover:bg-indigo-50 text-indigo-600 border border-indigo-200 hover:border-indigo-300 py-3 rounded-lg font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95"
+                >
+                    <MessageSquare className="w-5 h-5" />
+                    <span>回報問題與建議 (SEND FEEDBACK)</span>
+                </a>
             </div>
 
         </div>

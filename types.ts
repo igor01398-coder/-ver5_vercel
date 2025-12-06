@@ -56,6 +56,7 @@ export interface PuzzleProgress {
   quizInput?: string;
   quizSelect1?: string;
   quizSelect2?: string;
+  quizSelect3?: string; // Added for Mission 3 Question 1 extension
   imageDescription?: string;
   uploadedImage?: string | null;
   
