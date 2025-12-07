@@ -64,7 +64,7 @@ export const WeatherWidget: React.FC = () => {
   if (error) return null; // Hide widget on error
 
   return (
-    <div className="backdrop-blur bg-white/90 border border-slate-200 px-3 py-1 rounded-full shadow-sm flex items-center gap-2 transition-all hover:bg-white cursor-help" title="Local Weather Conditions">
+    <div className="backdrop-blur bg-white/90 border border-slate-200 px-2 py-1 rounded-full shadow-sm flex items-center gap-2 transition-all hover:bg-white cursor-help" title="Local Weather Conditions">
       {loading ? (
         <Loader2 className="w-3 h-3 text-slate-400 animate-spin" />
       ) : (

@@ -583,7 +583,7 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
 
       {/* External Map Links */}
       {showMapLinks && (
-        <div className="absolute bottom-6 right-20 z-[1000] flex flex-col gap-2 animate-in slide-in-from-right-4 fade-in duration-200">
+        <div className="absolute bottom-4 right-16 sm:bottom-6 sm:right-20 z-[1000] flex flex-col gap-2 animate-in slide-in-from-right-4 fade-in duration-200">
              <a 
                 href={URL_MAPY} 
                 target="_blank" 
@@ -606,7 +606,7 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
       )}
 
       {/* Map Controls */}
-      <div className="absolute bottom-6 right-6 z-[1000] flex flex-col gap-3">
+      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] flex flex-col gap-3">
         <button 
             onClick={() => setShowMapLinks(!showMapLinks)}
             className={`p-3 rounded-full shadow-lg transition-all ${showMapLinks ? 'bg-teal-600 text-white' : 'bg-white text-slate-600 hover:text-teal-600'}`}

@@ -563,27 +563,27 @@ const App: React.FC = () => {
       {view === AppView.HOME && (
         <>
             {/* Header / HUD */}
-            <div className="absolute top-0 left-0 right-0 z-[500] p-4 pointer-events-none">
+            <div className="absolute top-0 left-0 right-0 z-[500] p-2 sm:p-4 pointer-events-none">
                 <div className="flex justify-between items-start">
                     
                     {/* Player Info Card (Interactive) */}
                     <button 
                         onClick={() => setShowProfile(true)}
-                        className="bg-white/90 backdrop-blur border border-slate-200 p-3 rounded-lg pointer-events-auto shadow-lg text-left hover:scale-105 active:scale-95 transition-transform group"
+                        className="bg-white/90 backdrop-blur border border-slate-200 p-2 sm:p-3 rounded-lg pointer-events-auto shadow-lg text-left hover:scale-105 active:scale-95 transition-transform group max-w-[140px] sm:max-w-none"
                     >
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="w-10 h-10 bg-teal-50 group-hover:bg-teal-100 rounded-full flex items-center justify-center border border-teal-200 transition-colors">
-                                <User className="w-6 h-6 text-teal-600" />
+                        <div className="flex items-center gap-2 sm:gap-3 mb-0 sm:mb-2">
+                            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-teal-50 group-hover:bg-teal-100 rounded-full flex items-center justify-center border border-teal-200 transition-colors shrink-0">
+                                <User className="w-5 h-5 sm:w-6 sm:h-6 text-teal-600" />
                             </div>
-                            <div>
-                                <div className="text-xs text-slate-500 font-mono">{getRankTitle(playerStats.level)}</div>
-                                <div className="font-bold font-mono text-teal-700 uppercase flex items-center gap-2">
+                            <div className="overflow-hidden">
+                                <div className="text-xs text-slate-500 font-mono hidden sm:block">{getRankTitle(playerStats.level)}</div>
+                                <div className="font-bold font-mono text-teal-700 uppercase flex items-center gap-2 truncate text-sm sm:text-base">
                                     {teamName}
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shrink-0"></div>
                                 </div>
                             </div>
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-1 hidden sm:block">
                             {/* XP Display: Modulo 500 for current level progress */}
                             <div className="flex justify-between text-[10px] font-mono text-slate-500">
                                 <span>LVL {playerStats.level}</span>
@@ -602,10 +602,10 @@ const App: React.FC = () => {
                     <div className="flex flex-col items-end gap-2 pointer-events-auto">
                         
                         {/* Status Bar */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 sm:gap-2">
                             <button 
                                 onClick={handleRetryGps}
-                                className={`backdrop-blur border px-3 py-1 rounded-full flex items-center gap-2 shadow-sm transition-all hover:bg-opacity-100 cursor-pointer active:scale-95 ${
+                                className={`backdrop-blur border px-2 sm:px-3 py-1 rounded-full flex items-center gap-1 sm:gap-2 shadow-sm transition-all hover:bg-opacity-100 cursor-pointer active:scale-95 ${
                                 gpsStatus === 'locked' ? 'bg-teal-50/90 border-teal-200' : 
                                 gpsStatus === 'error' ? 'bg-rose-50/90 border-rose-200 hover:bg-rose-100' : 'bg-amber-50/90 border-amber-200'
                             }`}>
@@ -615,19 +615,30 @@ const App: React.FC = () => {
                                     <Satellite className={`w-3 h-3 ${gpsStatus === 'locked' ? 'text-teal-600' : 'text-amber-600 animate-pulse'}`} />
                                 )}
                                 
-                                <span className={`text-xs font-mono font-bold ${
+                                <span className={`text-[10px] sm:text-xs font-mono font-bold ${
                                     gpsStatus === 'locked' ? 'text-teal-700' : 
                                     gpsStatus === 'error' ? 'text-rose-700' : 'text-amber-700'
                                 }`}>
-                                    {gpsStatus === 'locked' ? `GPS LOCKED ${gpsAccuracy ? `±${Math.round(gpsAccuracy)}m` : ''}` : gpsStatus === 'error' ? 'GPS OFFLINE' : 'SEARCHING...'}
+                                    {gpsStatus === 'locked' ? (
+                                        <>
+                                            <span className="hidden sm:inline">GPS LOCKED </span>
+                                            {gpsAccuracy ? `±${Math.round(gpsAccuracy)}m` : ''}
+                                        </>
+                                    ) : gpsStatus === 'error' ? (
+                                        <span className="hidden sm:inline">GPS OFFLINE</span>
+                                    ) : (
+                                        <span className="hidden sm:inline">SEARCHING...</span>
+                                    )}
+                                    {gpsStatus === 'error' && <span className="sm:hidden">OFFLINE</span>}
+                                    {gpsStatus === 'searching' && <span className="sm:hidden">SEARCH...</span>}
                                 </span>
                             </button>
 
                             {/* Weather Widget */}
                             <WeatherWidget />
                             
-                            {/* Real Clock */}
-                            <div className="backdrop-blur bg-white/90 border border-slate-200 px-3 py-1 rounded-full shadow-sm flex items-center gap-2">
+                            {/* Real Clock - Hidden on mobile */}
+                            <div className="hidden sm:flex backdrop-blur bg-white/90 border border-slate-200 px-3 py-1 rounded-full shadow-sm items-center gap-2">
                                 <Clock className="w-3 h-3 text-slate-400" />
                                 <span className="text-xs font-mono text-slate-600">
                                     {currentTime.toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false})}
