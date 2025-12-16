@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Puzzle } from '../types';
 import { Navigation, Globe, Map as MapIcon, Layers, Play } from 'lucide-react';
@@ -18,6 +17,7 @@ interface GameMapProps {
   onGpsStatusChange: (status: 'searching' | 'locked' | 'error', accuracy?: number) => void;
   completedPuzzleIds: string[];
   gpsRetryTrigger?: number;
+  weatherCode: number | null; // Added for rain effect
 }
 
 // Constant for the Fog of War "Clear Zone" radius (in meters)
@@ -75,12 +75,11 @@ function getDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
 }
 // ------------------------
 
-export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEnabled, fogOpacity, onGpsStatusChange, completedPuzzleIds, gpsRetryTrigger = 0 }) => {
+export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEnabled, fogOpacity, onGpsStatusChange, completedPuzzleIds, gpsRetryTrigger = 0, weatherCode }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const userMarkerRef = useRef<any>(null);
   const accuracyCircleRef = useRef<any>(null);
-  const fogLayerRef = useRef<any>(null);
   
   // Use a ref for the callback to avoid re-running the main useEffect
   const onGpsStatusChangeRef = useRef(onGpsStatusChange);
@@ -93,6 +92,17 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
   // Auto-Follow State Logic
   const [isAutoFollow, setIsAutoFollow] = useState<boolean>(true);
   const isAutoFollowRef = useRef<boolean>(true); // Ref for geolocation callback usage
+
+  // Rain Effect Logic
+  const [isRaining, setIsRaining] = useState(false);
+
+  useEffect(() => {
+      // WMO Rain Codes: 51, 53, 55, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99
+      if (weatherCode !== null) {
+          const rainCodes = [51, 53, 55, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99];
+          setIsRaining(rainCodes.includes(weatherCode));
+      }
+  }, [weatherCode]);
 
   // Sync Ref with State
   useEffect(() => {
@@ -529,11 +539,35 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
 
   return (
     <div className="relative w-full h-full bg-slate-200">
+      
+      {/* Rain Effect Layer */}
+      {isRaining && (
+        <div 
+          className="absolute inset-0 pointer-events-none z-[400] opacity-30"
+          style={{
+            backgroundImage: 'linear-gradient(170deg, transparent 0%, transparent 40%, #a5b4fc 50%, transparent 60%)',
+            backgroundSize: '2px 40px',
+            animation: 'rain-fall 0.2s linear infinite'
+          }}
+        />
+      )}
+      <style>{`
+        @keyframes rain-fall {
+          0% { background-position: 0 0; }
+          100% { background-position: 10px 40px; }
+        }
+      `}</style>
+
       <div ref={mapContainerRef} className="w-full h-full z-0" />
       
       {/* Selected Mission Card */}
       {selectedPuzzle && (
-          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-[1000] w-[90%] max-w-sm animate-in slide-in-from-bottom-10 fade-in duration-300">
+          <div 
+            className="absolute left-1/2 -translate-x-1/2 z-[1000] w-[90%] max-w-sm animate-in slide-in-from-bottom-10 fade-in duration-300"
+            style={{ 
+                bottom: 'calc(6rem + env(safe-area-inset-bottom))' 
+            }}
+          >
               <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200 overflow-hidden">
                   <div className={`h-1.5 w-full ${
                       completedPuzzleIds.includes(selectedPuzzle.id) ? 'bg-slate-400' :
@@ -583,7 +617,13 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
 
       {/* External Map Links */}
       {showMapLinks && (
-        <div className="absolute bottom-4 right-16 sm:bottom-6 sm:right-20 z-[1000] flex flex-col gap-2 animate-in slide-in-from-right-4 fade-in duration-200">
+        <div 
+            className="absolute z-[1000] flex flex-col gap-2 animate-in slide-in-from-right-4 fade-in duration-200"
+            style={{ 
+                bottom: 'calc(1.5rem + env(safe-area-inset-bottom))', 
+                right: 'calc(4.5rem + env(safe-area-inset-right))' 
+            }}
+        >
              <a 
                 href={URL_MAPY} 
                 target="_blank" 
@@ -605,8 +645,14 @@ export const GameMap: React.FC<GameMapProps> = ({ puzzles, onPuzzleSelect, fogEn
         </div>
       )}
 
-      {/* Map Controls */}
-      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] flex flex-col gap-3">
+      {/* Map Controls - Responsive Adjustment */}
+      <div 
+        className="absolute z-[1000] flex flex-col gap-3"
+        style={{ 
+            bottom: 'calc(1.5rem + env(safe-area-inset-bottom))', 
+            right: 'calc(1rem + env(safe-area-inset-right))' 
+        }}
+      >
         <button 
             onClick={() => setShowMapLinks(!showMapLinks)}
             className={`p-3 rounded-full shadow-lg transition-all ${showMapLinks ? 'bg-teal-600 text-white' : 'bg-white text-slate-600 hover:text-teal-600'}`}

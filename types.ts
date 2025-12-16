@@ -64,6 +64,9 @@ export interface PuzzleProgress {
   m1Part1Solved?: boolean;
   m1Part2Solved?: boolean;
   isQuizSolved?: boolean;
+
+  // Statistics
+  failureCount?: number;
 }
 
 // Encyclopedia Types

@@ -1,46 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
-import { Cloud, CloudRain, Sun, CloudLightning, CloudFog, CloudSun, Thermometer, Loader2 } from 'lucide-react';
+import React from 'react';
+import { Cloud, CloudRain, Sun, CloudLightning, CloudFog, CloudSun, Loader2 } from 'lucide-react';
 
-export const WeatherWidget: React.FC = () => {
-  const [temp, setTemp] = useState<number | null>(null);
-  const [weatherCode, setWeatherCode] = useState<number | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+interface WeatherWidgetProps {
+  temp: number | null;
+  weatherCode: number | null;
+  loading: boolean;
+}
 
-  // Yongchun Pi Coordinates
-  const LAT = 25.03;
-  const LNG = 121.58;
-
-  const fetchWeather = async () => {
-    try {
-      setLoading(true);
-      // Using Open-Meteo (Free, no key required)
-      const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&current=temperature_2m,weather_code&timezone=auto`
-      );
-      
-      if (!response.ok) throw new Error('Weather fetch failed');
-      
-      const data = await response.json();
-      setTemp(data.current.temperature_2m);
-      setWeatherCode(data.current.weather_code);
-      setError(false);
-    } catch (err) {
-      console.error(err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchWeather();
-    // Refresh every 15 minutes
-    const interval = setInterval(fetchWeather, 15 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
-
+export const WeatherWidget: React.FC<WeatherWidgetProps> = ({ temp, weatherCode, loading }) => {
   // WMO Weather interpretation
   const getWeatherIcon = (code: number) => {
     // Clear sky
@@ -61,10 +29,10 @@ export const WeatherWidget: React.FC = () => {
     return <Cloud className="w-3 h-3 text-slate-500" />;
   };
 
-  if (error) return null; // Hide widget on error
+  if (!loading && weatherCode === null) return null;
 
   return (
-    <div className="backdrop-blur bg-white/90 border border-slate-200 px-2 py-1 rounded-full shadow-sm flex items-center gap-2 transition-all hover:bg-white cursor-help" title="Local Weather Conditions">
+    <div className="backdrop-blur bg-white/90 border border-slate-200 px-1.5 sm:px-2 py-1 rounded-full shadow-sm flex items-center gap-1 transition-all hover:bg-white cursor-help shrink-0" title="Local Weather Conditions">
       {loading ? (
         <Loader2 className="w-3 h-3 text-slate-400 animate-spin" />
       ) : (

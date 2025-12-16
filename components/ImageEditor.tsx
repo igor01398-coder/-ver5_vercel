@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { editImageWithGemini, fileToGenerativePart, validateImage } from '../services/geminiService';
 // FIX: Use relative path
@@ -49,6 +48,9 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
 
   const [isQuizSolved, setIsQuizSolved] = useState<boolean>(false);
   const [showQuizError, setShowQuizError] = useState<boolean>(false);
+
+  // Statistics
+  const [failureCount, setFailureCount] = useState<number>(0);
   
   // Side Mission Counter & History State
   const [sideMissionCount, setSideMissionCount] = useState<number>(0);
@@ -94,6 +96,9 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             if (initialState.m1Part1Solved) setM1Part1Solved(true);
             if (initialState.m1Part2Solved) setM1Part2Solved(true);
             if (initialState.isQuizSolved) setIsQuizSolved(true);
+
+            // Restore Stats
+            if (initialState.failureCount !== undefined) setFailureCount(initialState.failureCount);
         }
 
         // If Completed, force solved states
@@ -119,6 +124,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             setM1Part2Solved(false);
             setM1Part1Error(false);
             setM1Part2Error(false);
+            setFailureCount(0);
 
             setShowQuizError(false);
         } else if (!activePuzzle.quiz) {
@@ -144,7 +150,9 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
         // Save Solved Flags
         m1Part1Solved,
         m1Part2Solved,
-        isQuizSolved
+        isQuizSolved,
+        // Save Stats
+        failureCount
     };
     onBack(progress);
   };
@@ -172,6 +180,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
     } else {
         playSfx('error');
         setM1Part1Error(true);
+        setFailureCount(prev => prev + 1);
     }
   };
 
@@ -193,6 +202,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
     } else {
         playSfx('error');
         setM1Part2Error(true);
+        setFailureCount(prev => prev + 1);
     }
   };
 
@@ -230,6 +240,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
     } else {
         playSfx('error');
         setShowQuizError(true);
+        setFailureCount(prev => prev + 1);
     }
   };
 
@@ -270,6 +281,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
         if (!validation.isValid) {
             playSfx('error');
             setLoading(false); // Stop if invalid
+            setFailureCount(prev => prev + 1);
             return;
         }
 
@@ -366,7 +378,8 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
             uploadedImage: originalImage,
             m1Part1Solved,
             m1Part2Solved,
-            isQuizSolved
+            isQuizSolved,
+            failureCount
         };
         onComplete(progressData);
     }
@@ -379,7 +392,10 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ activePuzzle, onBack, 
     <div className="flex flex-col h-full w-full max-w-3xl mx-auto bg-slate-50 relative">
       
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-20 shadow-sm">
+      <div 
+        className="flex items-center justify-between p-4 border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-20 shadow-sm"
+        style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
+      >
         <button onClick={handleBack} className="p-2 hover:bg-slate-100 rounded-lg border border-slate-300 text-slate-600 hover:text-teal-600 transition-all">
             <ArrowLeft className="w-5 h-5" />
         </button>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>永春陂地質調查 Yongchun Pi Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -18,11 +18,22 @@
      crossorigin=""></script>
 
     <style>
+      html, body {
+        height: 100%;
+        width: 100%;
+        position: fixed; /* CRITICAL: Prevents scroll bounce and dynamic URL bar resize jumps on mobile */
+        overflow: hidden;
+        touch-action: none; /* Prevents native zoom/pan gestures to let map handle it */
+      }
       body {
         font-family: 'Inter', sans-serif;
         background-color: #f8fafc; /* Slate 50/White - Light Mode */
         color: #0f172a; /* Slate 900 - Dark Text */
-        overflow: hidden; /* Prevent body scroll for map */
+      }
+      #root {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
       }
       h1, h2, h3, .font-mono {
         font-family: 'Share Tech Mono', monospace;

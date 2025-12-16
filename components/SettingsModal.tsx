@@ -57,6 +57,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         report += `[任務 01: 四獸山連線]\n`;
         if (m1) {
             report += `狀態: ${m1.isQuizSolved ? '已完成' : '進行中'}\n`;
+            report += `失敗次數: ${m1.failureCount || 0}\n`;
             if (m1.m1Heights) {
                 report += `測量高度: 虎${m1.m1Heights.tiger}m / 豹${m1.m1Heights.leopard}m / 獅${m1.m1Heights.lion}m / 象${m1.m1Heights.elephant}m\n`;
             }
@@ -71,6 +72,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         report += `[任務 02: 岩層解密]\n`;
         if (m2) {
              report += `狀態: ${m2.uploadedImage ? '已採樣' : '進行中'}\n`;
+             report += `失敗次數: ${m2.failureCount || 0}\n`;
              if (m2.quizInput) report += `地層判斷: ${m2.quizInput}\n`;
              if (m2.imageDescription) report += `岩層筆記: ${m2.imageDescription}\n`;
         } else {
@@ -83,6 +85,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         report += `[任務 03: 等高線挑戰]\n`;
         if (m3) {
             report += `狀態: ${m3.uploadedImage ? '已完成' : '進行中'}\n`;
+            report += `失敗次數: ${m3.failureCount || 0}\n`;
             if (m3.quizSelect1 && m3.quizSelect2) {
                 report += `等高線觀察: 等高線越[${m3.quizSelect1}]，爬起來越[${m3.quizSelect2}]`;
                 if (m3.quizSelect3) {
